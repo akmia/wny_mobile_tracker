@@ -16,7 +16,14 @@ export default function RootLayout() {
       }}
     >
       <Stack.Screen
-        name="trackerform" 
+        name="index"
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="trackerform"
         options={{
           title: 'GRADUATE TRACER SURVEY – CTU MAIN',
         }}

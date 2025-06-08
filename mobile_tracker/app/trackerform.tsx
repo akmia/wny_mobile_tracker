@@ -161,7 +161,7 @@ export default function TrackerForm() {
             onValueChange={(itemValue) => handleChange('courseGraduated', itemValue)}
             style={styles.picker}
           >
-            <Picker.Item label="Select your course" value="" />
+            <Picker.Item label="Select your course" value="" enabled={false} />
             <Picker.Item label="Bachelor in Science in Information Technology" value="bsit" />
             <Picker.Item label="Bachelor in Science in Information System" value="bsis" />
             <Picker.Item label="Bachelor in Industrial Technology major in Computer Technology" value="bitct" />
@@ -299,7 +299,7 @@ export default function TrackerForm() {
             onValueChange={(itemValue) => handleChange('empstat1', itemValue)}
             style={styles.picker}
         >
-            <Picker.Item label="Select Employment Status" value="" />
+            <Picker.Item label="Select Employment Status" value="" enabled={false} />
             <Picker.Item label="Permanent" value="permanent" />
             <Picker.Item label="Temporary" value="temporary" />
         </Picker>
@@ -408,7 +408,7 @@ export default function TrackerForm() {
             onValueChange={(itemValue) => handleChange('currentStat', itemValue)}
             style={styles.picker}
         >
-            <Picker.Item label="Select Employment Status" value="" />
+            <Picker.Item label="Select Employment Status" value="" enabled={false} />
             <Picker.Item label="Permanent" value="permanent" />
             <Picker.Item label="Temporary" value="temporary" />
         </Picker>
@@ -455,7 +455,7 @@ export default function TrackerForm() {
             onValueChange={(itemValue) => setForm((prev) => ({ ...prev, yearsEmployed: itemValue }))}
             style={styles.picker}
         >
-            <Picker.Item label="Select duration" value="" />
+            <Picker.Item label="Select duration" value="" enabled={false}/>
             <Picker.Item label="Less than 1 year" value="less_than_1" />
             <Picker.Item label="More than one (1) year" value="more_than_1" />
         </Picker>
@@ -469,7 +469,7 @@ export default function TrackerForm() {
             onValueChange={(itemValue) => setForm((prev) => ({ ...prev, salaryRange: itemValue }))}
             style={styles.picker}
         >
-            <Picker.Item label="Select salary range" value="" />
+            <Picker.Item label="Select salary range" value="" enabled={false} />
             <Picker.Item label="Below 10,000 Php" value="below_10k" />
             <Picker.Item label="10,001 Php – 20,000 Php" value="10k_20k" />
             <Picker.Item label="20,001 Php – 30,000 Php" value="20k_30k" />
