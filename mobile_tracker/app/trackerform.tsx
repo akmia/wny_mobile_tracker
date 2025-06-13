@@ -13,6 +13,9 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import RadioGroup from 'react-native-radio-buttons-group';
 import type { RadioButtonProps } from 'react-native-radio-buttons-group';
+import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import { Alert } from 'react-native';
 
 type FileAsset = {
   name: string;
@@ -60,6 +63,28 @@ export default function TrackerForm() {
     file: null as FileAsset | null,
   });
 
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const beforeRemoveListener = (e: any) => {
+      e.preventDefault(); // prevent going back
+
+      Alert.alert('Confirm Logout', 'Are you sure you want to log out?', [
+        { text: 'Cancel', style: 'cancel', onPress: () => {} },
+        {
+          text: 'Yes',
+          style: 'destructive',
+          onPress: () => navigation.dispatch(e.data.action), // allow back
+        },
+      ]);
+    };
+
+  const unsubscribe = navigation.addListener('beforeRemove', beforeRemoveListener);
+
+  return () => unsubscribe(); // cleanup on unmount
+}, [navigation]);
+
+  
   const [genderOptions, setGenderOptions] = useState<RadioButtonProps[]>([
     { id: '1', label: 'Male', value: 'Male', selected: true },
     { id: '2', label: 'Female', value: 'Female' },
@@ -197,19 +222,21 @@ export default function TrackerForm() {
           value={form.middleName}
           onChangeText={(v) => handleChange('middleName', v)}
         /> 
-        <Text style={styles.label}>Gender</Text>
+        <Text style={styles.label}>7. Gender</Text>
         <RadioGroup
-            radioButtons={genderOptions}
-            onPress={(selectedValue: string) => {
-                setGenderOptions((prev) =>
-                prev.map((item) => ({
-                    ...item,
-                    selected: item.value === selectedValue,
-                }))
-                );
-                handleChange('gender', selectedValue);
-            }}
-            layout="row"
+          radioButtons={genderOptions}
+          selectedId={genderOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId) => {
+            const updatedButtons = genderOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setGenderOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) handleChange('gender', selected.value);
+          }}
+          layout="row"
         />
 
         <Text style={styles.label}>8. Age </Text>
@@ -314,19 +341,22 @@ export default function TrackerForm() {
         /> 
 
         <Text style={styles.label}>
-        19. Sector <Text style={{ fontStyle: 'italic' }}>(1st employer right after graduation)</Text></Text>
+          19. Sector <Text style={{ fontStyle: 'italic' }}>(1st employer right after graduation)</Text>
+        </Text>
         <RadioGroup
-            radioButtons={sectorOptions}
-            onPress={(selectedValue: string) => {
-            setSectorOptions((prev) =>
-                prev.map((item) => ({
-                ...item,
-                selected: item.value === selectedValue,
-                }))
-            );
-            handleChange('sector', selectedValue);
-            }}
-            layout="row"
+          radioButtons={sectorOptions}
+          selectedId={sectorOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId: string) => {
+            const updatedButtons = sectorOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setSectorOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) handleChange('sector', selected.value);
+          }}
+          layout="row"
         />
 
         <Text style={styles.label}>20. First Employment Supporting Document </Text>
@@ -342,20 +372,24 @@ export default function TrackerForm() {
         {form.file && <Text style={styles.fileText}>{form.file.name}</Text>}
 
         <Text style={styles.label}>
-        21. Are you <Text style={{ fontWeight: 'bold' }}>PRESENTLY</Text> employed?</Text>
+          21. Are you <Text style={{ fontWeight: 'bold' }}>PRESENTLY</Text> employed?
+        </Text>
         <RadioGroup
-            radioButtons={presentlyEmployedOptions}
-            onPress={(selectedValue: string) => {
-            setPresentlyEmployedOptions((prev) =>
-                prev.map((item) => ({
-                ...item,
-                selected: item.value === selectedValue,
-                }))
-            );
-            handleChange('presentlyEmployed', selectedValue);
-            }}
-            layout="row"
+          radioButtons={presentlyEmployedOptions}
+          selectedId={presentlyEmployedOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId: string) => {
+            const updatedButtons = presentlyEmployedOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setPresentlyEmployedOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) handleChange('presentlyEmployed', selected.value);
+          }}
+          layout="row"
         />
+
         </View>
 
       {/* PART III - Employment Status */}
@@ -432,20 +466,24 @@ export default function TrackerForm() {
         />  
 
         <Text style={styles.label}>
-        26. Sector <Text style={{ fontStyle: 'italic' }}>(1st employer right after graduation)</Text></Text>
+          26. Sector <Text style={{ fontStyle: 'italic' }}>(1st employer right after graduation)</Text>
+        </Text>
         <RadioGroup
-            radioButtons={sectorOptions}
-            onPress={(selectedValue: string) => {
-            setSectorOptions((prev) =>
-                prev.map((item) => ({
-                ...item,
-                selected: item.value === selectedValue,
-                }))
-            );
-            handleChange('sector', selectedValue);
-            }}
-            layout="row"
+          radioButtons={sectorOptions}
+          selectedId={sectorOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId: string) => {
+            const updatedButtons = sectorOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setSectorOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) handleChange('sector', selected.value);
+          }}
+          layout="row"
         />
+
 
         <Text style={styles.label}>
         27. How long have you been employed? <Text style={{ fontStyle: 'italic' }}>(Current Employment)</Text></Text>
@@ -490,20 +528,24 @@ export default function TrackerForm() {
         {form.file && <Text style={styles.fileText}>{form.file.name}</Text>}
 
         <Text style={styles.label}>
-        30. Have you received any awards or recognition during your employment?</Text>
+          30. Have you received any awards or recognition during your employment?
+        </Text>
         <RadioGroup
-            radioButtons={awardOptions}
-            onPress={(selectedValue: string) => {
-            setAwardOptions((prev) =>
-                prev.map((item) => ({
-                ...item,
-                selected: item.value === selectedValue,
-                }))
-            );
-            setHasAwards(selectedValue);
-            }}
-            layout="row"
+          radioButtons={awardOptions}
+          selectedId={awardOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId: string) => {
+            const updatedButtons = awardOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setAwardOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) setHasAwards(selected.value);
+          }}
+          layout="row"
         />
+
 
         <Text style={styles.label}>
         31. Supporting document for awards/recognition</Text>
@@ -513,20 +555,24 @@ export default function TrackerForm() {
         {form.file && <Text style={styles.fileText}>{form.file.name}</Text>}
 
         <Text style={styles.label}>
-        32. Did you pursue further study?</Text>
+          32. Did you pursue further study?
+        </Text>
         <RadioGroup
-            radioButtons={furtherStudyOptions}
-            onPress={(selectedValue: string) => {
-            setFurtherStudyOptions((prev) =>
-                prev.map((item) => ({
-                ...item,
-                selected: item.value === selectedValue,
-                }))
-            );
-            setFurtherStudy(selectedValue);
-            }}
-            layout="row"
+          radioButtons={furtherStudyOptions}
+          selectedId={furtherStudyOptions.find((btn) => btn.selected)?.id}
+          onPress={(selectedId: string) => {
+            const updatedButtons = furtherStudyOptions.map((btn) => ({
+              ...btn,
+              selected: btn.id === selectedId,
+            }));
+            setFurtherStudyOptions(updatedButtons);
+
+            const selected = updatedButtons.find((btn) => btn.id === selectedId);
+            if (selected) setFurtherStudy(selected.value);
+          }}
+          layout="row"
         />
+
       </View>
 
       {/* IF UNEMPLOYED */}
