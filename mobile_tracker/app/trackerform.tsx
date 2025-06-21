@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Button,
+  Alert,
 } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import RadioGroup from 'react-native-radio-buttons-group';
 import type { RadioButtonProps } from 'react-native-radio-buttons-group';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
-import { Alert } from 'react-native';
 
 type FileAsset = {
   name: string;
@@ -64,26 +62,6 @@ export default function TrackerForm() {
   });
 
   const navigation = useNavigation();
-
-  useEffect(() => {
-    const beforeRemoveListener = (e: any) => {
-      e.preventDefault(); // prevent going back
-
-      Alert.alert('Confirm Logout', 'Are you sure you want to log out?', [
-        { text: 'Cancel', style: 'cancel', onPress: () => {} },
-        {
-          text: 'Yes',
-          style: 'destructive',
-          onPress: () => navigation.dispatch(e.data.action), // allow back
-        },
-      ]);
-    };
-
-  const unsubscribe = navigation.addListener('beforeRemove', beforeRemoveListener);
-
-  return () => unsubscribe(); // cleanup on unmount
-}, [navigation]);
-
   
   const [genderOptions, setGenderOptions] = useState<RadioButtonProps[]>([
     { id: '1', label: 'Male', value: 'Male', selected: true },
@@ -108,6 +86,11 @@ export default function TrackerForm() {
 
   const handleChange = (key: keyof typeof form, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = () => {
+    console.log('Submitted data:', form);
+    Alert.alert('Submitted!', 'Your response has been recorded.');
   };
 
   const [hasAwards, setHasAwards] = useState('No');
