@@ -14,7 +14,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Here you can validate input before navigating
-    router.push("/trackerform"); // ✅ Navigate to home.tsx
+    router.push("/personal_info"); // ✅ Navigate to home.tsx
   };
 
   return (

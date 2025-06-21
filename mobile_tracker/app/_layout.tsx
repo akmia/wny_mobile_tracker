@@ -28,6 +28,19 @@ export default function RootLayout() {
           title: 'GRADUATE TRACER SURVEY – CTU MAIN',
         }}
       />
+      <Stack.Screen
+        name="personal_info"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="edit_persInfo"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
+
 }
