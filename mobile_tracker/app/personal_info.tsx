@@ -61,28 +61,23 @@ const PersonalInfoForm = () => {
           <Text style={styles.title}>PERSONAL INFORMATION</Text>
 
           <Text style={styles.label}>First Name</Text>
-          <TextInput style={styles.input} placeholder="First Name" />
+          <Text style={styles.readOnlyField}>Angel Khyla Marie</Text>
 
           <Text style={styles.label}>Last Name</Text>
-          <TextInput style={styles.input} placeholder="Last Name" />
+          <Text style={styles.readOnlyField}>Aboloc</Text>
 
           <Text style={styles.label}>Program</Text>
           <View style={styles.pickerWrapper}>
-            <Picker selectedValue={program} onValueChange={setProgram}>
-              <Picker.Item label="Select Program" value="" enabled={false} />
+            <Picker selectedValue={program} enabled={false}>
               <Picker.Item label="Bachelor in Science in Information Technology" value="bsit" />
               <Picker.Item label="Bachelor in Science in Information System" value="bsis" />
-              <Picker.Item
-                label="Bachelor in Industrial Technology major in Computer Technology"
-                value="bitct"
-              />
+              <Picker.Item label="Bachelor in Industrial Technology major in Computer Technology" value="bitct" />
             </Picker>
           </View>
 
           <Text style={styles.label}>Status</Text>
           <View style={styles.pickerWrapper}>
-            <Picker selectedValue={status} onValueChange={setStatus}>
-              <Picker.Item label="Select Status" value="" enabled={false} />
+            <Picker selectedValue={status} enabled={false}>
               <Picker.Item label="Employed" value="Employed" />
               <Picker.Item label="Unemployed" value="Unemployed" />
               <Picker.Item label="Untracked" value="Untracked" />
@@ -90,7 +85,7 @@ const PersonalInfoForm = () => {
           </View>
 
           <Text style={styles.label}>Company Name / Type of Business</Text>
-          <TextInput style={styles.input} placeholder="Company/Business" />
+          <Text style={styles.readOnlyField}>ABC Corporation</Text>
 
           <TouchableOpacity style={styles.editButton} onPress={() => router.push('/edit_persInfo')}>
             <Text style={styles.editButtonText}>Edit</Text>
@@ -179,6 +174,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1C4E80',
   },
+  readOnlyField: {
+  backgroundColor: '#e0e0e0',
+  borderRadius: 10,
+  padding: 12,
+  fontSize: 16,
+  marginBottom: 10,
+  color: '#333',
+},
 });
 
 export default PersonalInfoForm;
